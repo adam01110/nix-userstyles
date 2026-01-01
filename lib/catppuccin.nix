@@ -113,6 +113,7 @@
       name = "pink";
       base = "base17";
     }
+    # extra colors not in catppuccin base24.
     {
       name = "subtext1";
       base = "base06";
