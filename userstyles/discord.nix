@@ -4,6 +4,7 @@
   discord-userstyle,
   ...
 }:
+
 pkgs.writeTextFile {
   name = "discord.userstyle.css";
   text = ''

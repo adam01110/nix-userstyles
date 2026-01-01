@@ -4,6 +4,7 @@
   nix-colors ? null,
   discord-userstyle ? null,
 }:
+
 pkgs.writeTextFile {
   name = "qwant.userstyle.css";
   text = ''

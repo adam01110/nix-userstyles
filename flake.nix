@@ -12,27 +12,39 @@
     discord-userstyle.flake = false;
   };
 
-  outputs = {nixpkgs, ...} @ inputs: let
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-      "x86_64-darwin"
-      "aarch64-darwin"
-    ];
-    forAllSystems = f:
-      builtins.listToAttrs (map (system: {
-          name = system;
-          value = f system;
-        })
-        systems);
-  in {
-    packages = forAllSystems (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        inherit (inputs) nixpkgs;
-      };
-    in {
-      mkUserStyles = pkgs.callPackage ./lib/mkUserStyles.nix inputs;
-    });
-  };
+  outputs =
+    {
+      nixpkgs,
+      ...
+    }@inputs:
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+      forAllSystems =
+        f:
+        builtins.listToAttrs (
+          map (system: {
+            name = system;
+            value = f system;
+          }) systems
+        );
+    in
+    {
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            inherit (inputs) nixpkgs;
+          };
+        in
+        {
+          mkUserStyles = pkgs.callPackage ./lib/mkUserStyles.nix inputs;
+        }
+      );
+    };
 }

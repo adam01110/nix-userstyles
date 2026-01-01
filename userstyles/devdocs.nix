@@ -1,4 +1,8 @@
-{pkgs, ...}:
+{
+  pkgs,
+  ...
+}:
+
 pkgs.writeTextFile {
   name = "devdocs.userstyle.css";
   text = ''
