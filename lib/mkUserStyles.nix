@@ -8,6 +8,14 @@
 }@inputs:
 palette: userStyles:
 let
+  inherit (builtins)
+    isAttrs
+    concatStringsSep
+    ;
+  inherit (lib) getExe;
+  inherit (lib.attrsets) mapAttrsToList;
+  inherit (lib.strings) escapeShellArg;
+
   listNixModulesRecursive = import ./listNixModulesRecursive.nix inputs;
   importantize = pkgs.callPackage ./importantize.nix inputs;
 
@@ -23,7 +31,7 @@ let
     phases = [ "installPhase" ];
     installPhase = ''
       mkdir -p $out
-      for pkg in ${lib.concatStringsSep " " extraPkgs}; do
+      for pkg in ${concatStringsSep " " extraPkgs}; do
         name=$(basename "$pkg" ".userstyle.css")
         name=''${name#*-}
         mkdir -p "$out/$name"
@@ -32,20 +40,28 @@ let
     '';
   };
 
+  catppuccin = import ./catppuccin.nix;
+
+  palette24 = palette // {
+    base11 = palette.base00;
+    base12 = palette.base08;
+    base15 = palette.base0C;
+    base16 = palette.base0D;
+    base17 = palette.base0E;
+  };
+
   cssVars = ''
     :root {
-    ${builtins.concatStringsSep "\n" (
-      lib.attrsets.mapAttrsToList (name: value: "--${name}: #${toString value};") palette
-    )}
+    ${concatStringsSep "\n" (mapAttrsToList (name: value: "--${name}: #${toString value};") palette24)}
     }
   '';
 
   lessVarDecl =
     vars: prefix:
-    builtins.concatStringsSep " " (
-      lib.attrsets.mapAttrsToList (
+    concatStringsSep " " (
+      mapAttrsToList (
         name: value:
-        if builtins.isAttrs value then
+        if isAttrs value then
           "@${prefix}${name}: { ${lessVarDecl value ""} };"
         else
           "@${prefix}${name}: ${toString value};"
@@ -82,8 +98,7 @@ let
     zen = 0;
   };
 
-  userStylesStr = lib.concatStringsSep " " userStyles;
-  catppuccinMochaPalette = lib.attrValues nix-colors.colorSchemes.catppuccin-mocha.palette;
+  userStylesStr = concatStringsSep " " userStyles;
 in
 pkgs.stdenvNoCC.mkDerivation {
   name = "userstyles.css";
@@ -100,7 +115,7 @@ pkgs.stdenvNoCC.mkDerivation {
     for style in ${userStylesStr}; do
       file="${catppuccin-userstyles}/styles/$style/catppuccin.user.less"
       if [ -f "$file" ]; then
-        (cat "${catppuccin-userstyles}/lib/lib.less"; cat "$file" | sed '\|@import "https://userstyles.catppuccin.com/lib/lib.less";|d'; echo ${lib.strings.escapeShellArg (lessVarDecl lessVars "")}) | \
+        (cat "${catppuccin-userstyles}/lib/lib.less"; cat "$file" | sed '\|@import "https://userstyles.catppuccin.com/lib/lib.less";|d'; echo ${escapeShellArg (lessVarDecl lessVars "")}) | \
           lessc --source-map-no-annotation --clean-css="-b --s0 --skip-rebase --skip-advanced --skip-aggressive-merging --skip-shorthand-compacting" - >> catppuccin.userstyles.css
       fi
     done
@@ -117,13 +132,13 @@ pkgs.stdenvNoCC.mkDerivation {
     # replace catppuccin mocha colors with user-defined palette colors
     cat *.userstyles.css > userstyles.css
     substituteInPlace userstyles.css \
-      ${lib.concatStringsSep " \\\n        " (
-        lib.zipListsWith (
-          mochaColor: paletteColor: "--replace-warn '${mochaColor}' '${paletteColor}'"
-        ) catppuccinMochaPalette (lib.attrValues palette)
+      ${concatStringsSep " \\\n        " (
+        map (
+          mapping: "--replace-warn '${catppuccin.palette.${mapping.name}}' '${palette24.${mapping.base}}'"
+        ) catppuccin.replacements
       )}
 
     # !important
-    cat userstyles.css | ${lib.getExe importantize} > $out
+    cat userstyles.css | ${getExe importantize} > $out
   '';
 }
