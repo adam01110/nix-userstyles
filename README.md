@@ -7,7 +7,12 @@ This module exports a nix function to generate userstyles for popular websites u
 ## Usage
 
 ```nix
-{nix-userstyles, ...}: let
+{
+  nix-userstyles,
+  pkgs,
+  ...
+}:
+let
   # https://github.com/SenchoPens/base16.nix/blob/main/DOCUMENTATION.md#mkschemeattrs
   # https://github.com/tinted-theming/schemes
   nix-colors = builtins.getFlake "github:misterio77/nix-colors";
@@ -16,31 +21,68 @@ This module exports a nix function to generate userstyles for popular websites u
   userStyles = [
     "brave-search"
     "bsky"
-    "chatgpt"
-    "cinny"
     "duckduckgo"
     "github"
     "google"
     "hacker-news"
     "lobste.rs"
-    "nixos-*"
     "npm"
-    "ollama"
-    "perplexity"
     "reddit"
     "spotify-web"
     "stack-overflow"
     "whatsapp-web"
     "wikipedia"
     "youtube"
-  ]
-in {
+  ];
+in
+{
   # no additional extensions needed, just add the userstyles to your firefox profile userContent
   programs.firefox.profiles.yourprofile.userContent = ''
-    ${builtins.readFile "${nix-userstyles.packages.${pkgs.system}.mkUserStyles palette userStyles}"}
+    ${builtins.readFile "${nix-userstyles.packages.${pkgs.stdenv.hostPlatform.system}.mkUserStyles palette userStyles}"}
   '';
 }
 ```
+
+```nix
+{
+  config,
+  lib,
+  pkgs,
+  nix-userstyles,
+  ...
+}:
+let
+  inherit (lib)
+    filterAttrs
+    hasPrefix
+    ;
+
+  palette = config.lib.stylix.colors |> filterAttrs (name: _: hasPrefix "base0" name);
+  userStyles = [
+    "brave-search"
+    "bsky"
+    "cinny"
+    "duckduckgo"
+    "github"
+    "google"
+    "hacker-news"
+    "lobste.rs"
+    "npm"
+    "reddit"
+    "spotify-web"
+    "stack-overflow"
+    "whatsapp-web"
+    "wikipedia"
+    "youtube"
+  ];
+in
+{
+  # no additional extensions needed, just add the userstyles to your firefox profile userContent
+  programs.firefox.profiles.yourprofile.userContent = ''
+    ${builtins.readFile "${nix-userstyles.packages.${pkgs.stdenv.hostPlatform.system}.mkUserStyles palette userStyles}"}
+  '';
+}
+``` 
 
 ## Credits
 
