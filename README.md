@@ -82,7 +82,7 @@ in
     ${builtins.readFile "${nix-userstyles.packages.${pkgs.stdenv.hostPlatform.system}.mkUserStyles palette userStyles}"}
   '';
 }
-``` 
+```
 
 ## Credits
 
