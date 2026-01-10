@@ -106,6 +106,7 @@
     styleVideoPlayer = 1;
     urls = "localhost";
     zen = 0;
+    hideColorSampleTint = 1;
   };
 
   userStylesStr = concatStringsSep " " userStyles;
