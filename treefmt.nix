@@ -1,0 +1,12 @@
+{...}: {
+  programs = {
+    alejandra.enable = true;
+    nixf-diagnose.enable = true;
+    deadnix.enable = true;
+
+    biome.enable = true;
+
+    yamlfmt.enable = true;
+    yamllint.enable = true;
+  };
+}

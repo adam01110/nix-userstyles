@@ -1,8 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-
+{pkgs, ...}:
 pkgs.writeShellApplication {
   name = "importantize";
   runtimeInputs = with pkgs; [

@@ -3,7 +3,6 @@
   palette,
   ...
 }:
-
 pkgs.writeTextFile {
   name = "telegram.userstyle.css";
   text = ''

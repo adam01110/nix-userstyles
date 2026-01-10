@@ -8,19 +8,23 @@
 } @ inputs: palette: userStyles: let
   inherit
     (builtins)
-    isAttrs
     concatStringsSep
     filter
     elem
     ;
   inherit (lib) getExe;
   inherit (lib.attrsets) mapAttrsToList;
-  inherit (lib.strings) escapeShellArg;
+  inherit
+    (lib.strings)
+    escapeShellArg
+    removeSuffix
+    hasSuffix
+    ;
 
   listNixModulesRecursive = import ./listNixModulesRecursive.nix inputs;
   importantize = pkgs.callPackage ./importantize.nix inputs;
 
-  extraPkgs = lib.map (
+  extraPkgs = map (
     x:
       pkgs.callPackage x {
         inherit palette nix-colors discord-userstyle;
@@ -42,8 +46,8 @@
   };
 
   localStyleNames =
-    map (f: lib.strings.removeSuffix ".nix" (baseNameOf f))
-    (filter (f: lib.strings.hasSuffix ".nix" f)
+    map (f: removeSuffix ".nix" (baseNameOf f))
+    (filter (f: hasSuffix ".nix" f)
       (listNixModulesRecursive ../userstyles));
 
   catppuccinStyles = filter (s: !elem s localStyleNames) userStyles;
@@ -66,13 +70,10 @@
     }
   '';
 
-  lessVarDecl = vars: prefix:
+  lessVarDecl = vars:
     concatStringsSep " " (
       mapAttrsToList (
-        name: value:
-          if isAttrs value
-          then "@${prefix}${name}: { ${lessVarDecl value ""} };"
-          else "@${prefix}${name}: ${toString value};"
+        name: value: "@${name}: ${toString value};"
       )
       vars
     );
@@ -125,7 +126,7 @@ in
       for style in ${catppuccinStylesStr}; do
         file="${catppuccin-userstyles}/styles/$style/catppuccin.user.less"
         if [ -f "$file" ]; then
-          (cat "${catppuccin-userstyles}/lib/lib.less"; cat "$file" | sed '\|@import "https://userstyles.catppuccin.com/lib/lib.less";|d'; echo ${escapeShellArg (lessVarDecl lessVars "")}) | \
+          (cat "${catppuccin-userstyles}/lib/lib.less"; cat "$file" | sed '\|@import "https://userstyles.catppuccin.com/lib/lib.less";|d'; echo ${escapeShellArg (lessVarDecl lessVars)}) | \
             lessc --source-map-no-annotation --clean-css="-b --s0 --skip-rebase --skip-advanced --skip-aggressive-merging --skip-shorthand-compacting" - >> catppuccin.userstyles.css
         fi
       done
@@ -133,18 +134,17 @@ in
       # build extra userstyles
       for style in ${userStylesStr}; do
         file="${extraPkg}/$style/userstyle.css"
-        echo "$file"
         if [ -f "$file" ]; then
           (echo "${cssVars}"; cat "$file") | sass --quiet - >> extra.userstyles.css
         fi
       done
 
       # replace catppuccin mocha colors with user-defined palette colors
-      cat *.userstyles.css > userstyles.css
+      cat catppuccin.userstyles.css extra.userstyles.css > userstyles.css 2>/dev/null || cat extra.userstyles.css > userstyles.css
       substituteInPlace userstyles.css \
         ${concatStringsSep " \\\n        " (
         map (
-          mapping: "--replace-warn '${catppuccin.palette.${mapping.name}}' '${palette24.${mapping.base}}'"
+          mapping: "--replace-warn ${escapeShellArg catppuccin.palette.${mapping.name}} ${escapeShellArg palette24.${mapping.base}}"
         )
         catppuccin.replacements
       )}

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-
+{pkgs, ...}:
 pkgs.writeTextFile {
   name = "whatsapp-web.userstyle.css";
   text = ''

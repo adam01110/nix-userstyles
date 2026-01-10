@@ -1,11 +1,6 @@
-{
-  lib,
-  ...
-}:
-
-basePath:
-let
-  inherit (lib)
+{lib, ...}: basePath: let
+  inherit
+    (lib)
     removePrefix
     splitString
     hasSuffix
@@ -16,6 +11,6 @@ let
   relPath = file: removePrefix "/" (removePrefix (toString basePath) (toString file));
   pathSegments = file: splitString "/" (relPath file);
 in
-lib.filter (file: hasSuffix ".nix" file && lib.all (seg: !hasPrefix "_" seg) (pathSegments file)) (
-  listFilesRecursive basePath
-)
+  lib.filter (file: hasSuffix ".nix" file && lib.all (seg: !hasPrefix "_" seg) (pathSegments file)) (
+    listFilesRecursive basePath
+  )
