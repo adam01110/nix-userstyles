@@ -2,7 +2,7 @@
   lib,
   nix-colors,
 }: let
-  hexToDec = nix-colors.lib.conversions.hexToDec;
+  inherit (nix-colors.lib.conversions) hexToDec;
 
   hexToHSL = hex: unit: let
     rgb = {

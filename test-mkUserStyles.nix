@@ -1,7 +1,7 @@
 let
   flake = builtins.getFlake (toString ./.);
   nix-colors = builtins.getFlake "github:misterio77/nix-colors";
-  palette = nix-colors.outputs.colorSchemes.dracula.palette;
+  inherit (nix-colors.outputs.colorSchemes.dracula) palette;
 in
   flake.outputs.packages.${builtins.currentSystem}.mkUserStyles palette [
     "brave-search"

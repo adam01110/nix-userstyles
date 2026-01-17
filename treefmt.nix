@@ -1,8 +1,9 @@
-{...}: {
+_: {
   programs = {
     alejandra.enable = true;
     nixf-diagnose.enable = true;
     deadnix.enable = true;
+    statix.enable = true;
 
     biome.enable = true;
 
