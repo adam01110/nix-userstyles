@@ -1,6 +1,7 @@
 # nix-userstyles
 
-This module exports a nix function to generate userstyles for popular websites using your own color palette.
+This module exports a nix function to generate userstyles for popular
+websites using your own color palette.
 
 ![nix-userstyles](screenshot.png)
 
@@ -36,9 +37,13 @@ let
   ];
 in
 {
-  # no additional extensions needed, just add the userstyles to your firefox profile userContent
+  # no additional extensions needed, just add the userstyles
+  # to your firefox profile userContent
+  system = pkgs.stdenv.hostPlatform.system;
   programs.firefox.profiles.yourprofile.userContent = ''
-    ${builtins.readFile "${nix-userstyles.packages.${pkgs.stdenv.hostPlatform.system}.mkUserStyles palette userStyles}"}
+    ${builtins.readFile "${
+      nix-userstyles.packages.${system}.mkUserStyles palette userStyles
+    }"}
   '';
 }
 ```
@@ -57,7 +62,9 @@ let
     hasPrefix
     ;
 
-  palette = config.lib.stylix.colors |> filterAttrs (name: _: hasPrefix "base0" name);
+  palette =
+    config.lib.stylix.colors
+    |> filterAttrs (name: _: hasPrefix "base0" name);
   userStyles = [
     "brave-search"
     "bsky"
@@ -77,9 +84,13 @@ let
   ];
 in
 {
-  # no additional extensions needed, just add the userstyles to your firefox profile userContent
+  # no additional extensions needed, just add the userstyles
+  # to your firefox profile userContent
+  system = pkgs.stdenv.hostPlatform.system;
   programs.firefox.profiles.yourprofile.userContent = ''
-    ${builtins.readFile "${nix-userstyles.packages.${pkgs.stdenv.hostPlatform.system}.mkUserStyles palette userStyles}"}
+    ${builtins.readFile "${
+      nix-userstyles.packages.${system}.mkUserStyles palette userStyles
+    }"}
   '';
 }
 ```
