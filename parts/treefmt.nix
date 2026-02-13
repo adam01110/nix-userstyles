@@ -1,5 +1,5 @@
-{inputs, ...}: {
-  perSystem = {config, ...}: {
+_: {
+  perSystem = _: {
     treefmt = {
       programs = {
         alejandra.enable = true;
@@ -16,7 +16,5 @@
         rumdl-format.enable = true;
       };
     };
-
-    checks.formatting = config.treefmt.build.check inputs.self;
   };
 }
