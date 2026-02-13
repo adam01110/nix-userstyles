@@ -6,6 +6,11 @@
     import-tree.url = "github:vic/import-tree";
     systems.url = "github:nix-systems/default";
 
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-colors = {
       url = "github:misterio77/nix-colors";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -20,11 +25,6 @@
       url = "https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css";
       flake = false;
     };
-
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs @ {
@@ -35,6 +35,9 @@
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = import systems;
-      imports = [(import-tree ./parts)];
+      imports = [
+        inputs.treefmt-nix.flakeModule
+        (import-tree ./parts)
+      ];
     };
 }

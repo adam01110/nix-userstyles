@@ -1,6 +1,6 @@
 {inputs, ...}: {
-  perSystem = {pkgs, ...}: let
-    treefmtEval = inputs.treefmt-nix.lib.evalModule pkgs {
+  perSystem = {config, ...}: {
+    treefmt = {
       programs = {
         alejandra.enable = true;
         nixf-diagnose.enable = true;
@@ -16,8 +16,7 @@
         rumdl-format.enable = true;
       };
     };
-  in {
-    formatter = treefmtEval.config.build.wrapper;
-    checks.formatting = treefmtEval.config.build.check inputs.self;
+
+    checks.formatting = config.treefmt.build.check inputs.self;
   };
 }

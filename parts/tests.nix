@@ -26,13 +26,8 @@
     "youtube"
   ];
 in {
-  perSystem = {pkgs, ...}: let
+  perSystem = {mkUserStyles, ...}: let
     inherit (inputs.nix-colors.colorSchemes.dracula) palette;
-    mkUserStyles = import ../lib/mkUserStyles.nix {
-      inherit pkgs;
-      inherit (pkgs) lib;
-      inherit (inputs) nix-colors catppuccin-userstyles discord-userstyle;
-    };
   in {
     packages.test = mkUserStyles palette testUserStyles;
   };

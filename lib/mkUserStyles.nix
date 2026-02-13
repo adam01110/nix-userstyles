@@ -115,7 +115,7 @@ in
   pkgs.stdenvNoCC.mkDerivation {
     name = "userstyles.css";
     phases = ["buildPhase"];
-    buildInputs = with pkgs; [
+    nativeBuildInputs = with pkgs; [
       lessc
       nodePackages_latest.sass
     ];
@@ -151,6 +151,6 @@ in
       )}
 
       # !important
-      cat userstyles.css | ${getExe importantize} > $out
+      ${getExe importantize} < userstyles.css > $out
     '';
   }

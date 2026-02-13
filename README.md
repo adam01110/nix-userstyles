@@ -42,7 +42,7 @@ in
   system = pkgs.stdenv.hostPlatform.system;
   programs.firefox.profiles.yourprofile.userContent = ''
     ${builtins.readFile "${
-      nix-userstyles.packages.${system}.mkUserStyles palette userStyles
+      nix-userstyles.lib.mkUserStyles system palette userStyles
     }"}
   '';
 }
@@ -89,7 +89,7 @@ in
   system = pkgs.stdenv.hostPlatform.system;
   programs.firefox.profiles.yourprofile.userContent = ''
     ${builtins.readFile "${
-      nix-userstyles.packages.${system}.mkUserStyles palette userStyles
+      nix-userstyles.lib.mkUserStyles system palette userStyles
     }"}
   '';
 }
@@ -97,6 +97,7 @@ in
 
 ## Credits
 
+- [Original project (knoopx/nix-userstyles)](https://github.com/knoopx/nix-userstyles)
 - [Catppuccin Organization](https://github.com/catppuccin)
 - [SenchoPens/base16.nix](https://github.com/SenchoPens/base16.nix)
 - [tinted-theming/schemes](https://github.com/tinted-theming/schemes)
