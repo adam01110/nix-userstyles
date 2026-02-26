@@ -117,7 +117,7 @@ in
     phases = ["buildPhase"];
     nativeBuildInputs = with pkgs; [
       lessc
-      nodePackages_latest.sass
+      pkgs.dart-sass
     ];
 
     buildPhase = ''
@@ -136,7 +136,7 @@ in
       for style in ${userStylesStr}; do
         file="${extraPkg}/$style/userstyle.css"
         if [ -f "$file" ]; then
-          (echo "${cssVars}"; cat "$file") | sass --quiet - >> extra.userstyles.css
+          (echo "${cssVars}"; cat "$file") | sass --quiet --stdin >> extra.userstyles.css
         fi
       done
 
