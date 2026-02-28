@@ -35,9 +35,6 @@
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = import systems;
-      imports = [
-        inputs.treefmt-nix.flakeModule
-        (import-tree ./parts)
-      ];
+      imports = [(import-tree ./parts)];
     };
 }
