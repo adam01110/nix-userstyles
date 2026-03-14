@@ -1,7 +1,7 @@
 # nix-userstyles
 
-This module exports a nix function to generate userstyles for popular
-websites using your own color palette.
+This module generates CSS from the upstream Catppuccin userstyles and remaps
+the Catppuccin Mocha palette to your own Base16-compatible palette.
 
 ![nix-userstyles](screenshot.png)
 
@@ -34,6 +34,7 @@ let
     "whatsapp-web"
     "wikipedia"
     "youtube"
+    "discord"
   ];
 in
 {
@@ -81,6 +82,7 @@ let
     "whatsapp-web"
     "wikipedia"
     "youtube"
+    "discord"
   ];
 in
 {

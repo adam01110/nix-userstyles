@@ -16,7 +16,6 @@
     "npm"
     "ollama"
     "perplexity"
-    "qwant"
     "reddit"
     "spotify-web"
     "stack-overflow"
