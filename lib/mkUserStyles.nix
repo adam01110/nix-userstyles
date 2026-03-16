@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  nix-colors,
   catppuccin-userstyles,
   discord-userstyle,
   ...
@@ -17,40 +16,9 @@
   inherit
     (lib.strings)
     escapeShellArg
-    removeSuffix
-    hasSuffix
     ;
-
-  listNixModulesRecursive = import ./listNixModulesRecursive.nix inputs;
   importantize = pkgs.callPackage ./importantize.nix inputs;
-
-  extraPkgs = map (
-    x:
-      pkgs.callPackage x {
-        inherit palette nix-colors discord-userstyle;
-      }
-  ) (listNixModulesRecursive ../userstyles);
-
-  extraPkg = pkgs.stdenvNoCC.mkDerivation {
-    name = "extra-userstyles";
-    phases = ["installPhase"];
-    installPhase = ''
-      mkdir -p $out
-      for pkg in ${concatStringsSep " " extraPkgs}; do
-        name=$(basename "$pkg" ".userstyle.css")
-        name=''${name#*-}
-        mkdir -p "$out/$name"
-        cp "$pkg" "$out/$name/userstyle.css"
-      done
-    '';
-  };
-
-  localStyleNames =
-    map (f: removeSuffix ".nix" (baseNameOf f))
-    (filter (f: hasSuffix ".nix" f)
-      (listNixModulesRecursive ../userstyles));
-
-  catppuccinStyles = filter (s: !elem s localStyleNames) userStyles;
+  catppuccinStyles = filter (s: s != "discord") userStyles;
 
   catppuccin = import ./catppuccin.nix;
 
@@ -63,12 +31,6 @@
       base16 = palette.base0D;
       base17 = palette.base0E;
     };
-
-  cssVars = ''
-    :root {
-    ${concatStringsSep "\n" (mapAttrsToList (name: value: "--${name}: #${toString value};") palette24)}
-    }
-  '';
 
   lessVarDecl = vars:
     concatStringsSep " " (
@@ -109,15 +71,14 @@
     hideColorSampleTint = 1;
   };
 
-  userStylesStr = concatStringsSep " " userStyles;
   catppuccinStylesStr = concatStringsSep " " catppuccinStyles;
+  buildDiscordStyle = elem "discord" userStyles;
 in
   pkgs.stdenvNoCC.mkDerivation {
     name = "userstyles.css";
     phases = ["buildPhase"];
     nativeBuildInputs = with pkgs; [
       lessc
-      pkgs.dart-sass
     ];
 
     buildPhase = ''
@@ -132,13 +93,14 @@ in
         fi
       done
 
-      # build extra userstyles
-      for style in ${userStylesStr}; do
-        file="${extraPkg}/$style/userstyle.css"
-        if [ -f "$file" ]; then
-          (echo "${cssVars}"; cat "$file") | sass --quiet --stdin >> extra.userstyles.css
-        fi
-      done
+      # add discord userstyle
+      if [ "${if buildDiscordStyle then "1" else "0"}" = "1" ]; then
+        {
+          echo '@-moz-document domain("discord.com") {'
+          cat "${discord-userstyle}"
+          echo '}'
+        } >> extra.userstyles.css
+      fi
 
       # replace catppuccin mocha colors with user-defined palette colors
       cat catppuccin.userstyles.css extra.userstyles.css > userstyles.css 2>/dev/null || cat extra.userstyles.css > userstyles.css
