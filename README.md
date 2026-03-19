@@ -18,34 +18,64 @@ let
   # https://github.com/tinted-theming/schemes
   nix-colors = builtins.getFlake "github:misterio77/nix-colors";
   palette = nix-colors.outputs.colorSchemes.dracula.palette;
-  # https://github.com/catppuccin/userstyles/tree/main/styles
-  userStyles = [
-    "brave-search"
-    "bsky"
-    "duckduckgo"
-    "github"
-    "google"
-    "hacker-news"
-    "lobste.rs"
-    "npm"
-    "reddit"
-    "spotify-web"
-    "stack-overflow"
-    "whatsapp-web"
-    "wikipedia"
-    "youtube"
-    "discord"
-  ];
 in
 {
   # no additional extensions needed, just add the userstyles
   # to your firefox profile userContent
   system = pkgs.stdenv.hostPlatform.system;
-  programs.firefox.profiles.yourprofile.userContent = ''
-    ${builtins.readFile "${
-      nix-userstyles.lib.mkUserStyles system palette userStyles
-    }"}
-  '';
+  home.file.".mozilla/firefox/default/chrome/userContent.css".source =
+    nix-userstyles.lib.mkUserContent system {
+      inherit palette;
+      userStyles = [
+        # https://github.com/catppuccin/userstyles/tree/main/styles
+        "brave-search"
+        "bsky"
+        "duckduckgo"
+        "github"
+        "google"
+        "hacker-news"
+        "lobste.rs"
+        "npm"
+        "reddit"
+        "spotify-web"
+        "stack-overflow"
+        "whatsapp-web"
+        "wikipedia"
+        "youtube"
+        "discord"
+      ];
+    };
+}
+```
+
+```nix
+{
+  nix-userstyles,
+  pkgs,
+  ...
+}:
+let
+  nix-colors = builtins.getFlake "github:misterio77/nix-colors";
+  palette = nix-colors.outputs.colorSchemes.dracula.palette;
+  system = pkgs.stdenv.hostPlatform.system;
+in
+{
+  home.file.".mozilla/firefox/default/chrome/userContent.css".source =
+    nix-userstyles.lib.mkUserContent system {
+      inherit palette;
+      userStyles = [
+        "github"
+        "reddit"
+        "youtube"
+      ];
+      extraCss = ''
+        @-moz-document domain("example.com") {
+          body {
+            outline: 1px solid red !important;
+          }
+        }
+      '';
+    };
 }
 ```
 
@@ -63,39 +93,47 @@ let
     hasPrefix
     ;
 
-  palette =
-    config.lib.stylix.colors
-    |> filterAttrs (name: _: hasPrefix "base0" name);
-  userStyles = [
-    "brave-search"
-    "bsky"
-    "cinny"
-    "duckduckgo"
-    "github"
-    "google"
-    "hacker-news"
-    "lobste.rs"
-    "npm"
-    "reddit"
-    "spotify-web"
-    "stack-overflow"
-    "whatsapp-web"
-    "wikipedia"
-    "youtube"
-    "discord"
-  ];
+  palette = filterAttrs (name: _: hasPrefix "base0" name) config.lib.stylix.colors;
 in
 {
   # no additional extensions needed, just add the userstyles
   # to your firefox profile userContent
   system = pkgs.stdenv.hostPlatform.system;
-  programs.firefox.profiles.yourprofile.userContent = ''
-    ${builtins.readFile "${
-      nix-userstyles.lib.mkUserStyles system palette userStyles
-    }"}
-  '';
+  home.file.".mozilla/firefox/default/chrome/userContent.css".source =
+    nix-userstyles.lib.mkUserContent system {
+      inherit palette;
+      userStyles = [
+        # https://github.com/catppuccin/userstyles/tree/main/styles
+        "brave-search"
+        "bsky"
+        "cinny"
+        "duckduckgo"
+        "github"
+        "google"
+        "hacker-news"
+        "lobste.rs"
+        "npm"
+        "reddit"
+        "spotify-web"
+        "stack-overflow"
+        "whatsapp-web"
+        "wikipedia"
+        "youtube"
+        "discord"
+      ];
+      extraCss = ''
+        @-moz-document domain("example.com") {
+          body {
+            outline: 1px solid red !important;
+          }
+        }
+      '';
+    };
 }
 ```
+
+`mkUserStyles` still returns only the generated upstream CSS derivation.
+`withExtraCss` exists if you want to append your own CSS.
 
 ## Credits
 

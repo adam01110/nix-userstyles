@@ -22,7 +22,7 @@
 
   catppuccin = import ./catppuccin.nix;
   discord = import ./discord.nix {
-    inherit catppuccin concatStringsSep escapeShellArg map palette24;
+    inherit catppuccin concatStringsSep escapeShellArg palette24;
   };
 
   palette24 =
@@ -69,6 +69,7 @@
     applyToDocument = 0;
     bg-blur = "20px";
     bg-opacity = 0.2;
+    checkColor = "red";
     colorizeLogo = 0;
     contrastColor = "@accentColor";
     darkenShadows = 1;
@@ -82,10 +83,12 @@
     highlightColor3 = "peach";
     highlightColor4 = "blue";
     lighterMessages = 0;
+    lastMoveColor = "red";
     lightFlavor = "mocha";
     logo = 1;
     oled = 0;
     sponsorBlock = 1;
+    styleBoard = 1;
     styleBoardAndPieces = 1;
     stylePieces = 1;
     styleVideoPlayer = 1;

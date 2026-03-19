@@ -3,7 +3,9 @@
 in {
   perSystem = {mkUserStyles, ...}: let
     inherit (inputs.nix-colors.colorSchemes.gruvbox-dark-medium) palette;
+    testPackage = mkUserStyles palette testUserStyles;
   in {
-    packages.test = mkUserStyles palette testUserStyles;
+    packages.test = testPackage;
+    checks.test = testPackage;
   };
 }
