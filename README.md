@@ -15,6 +15,7 @@ the Catppuccin Mocha palette to your own Base16-compatible palette.
 
 - `lib.mkUserStyles`: build the generated upstream CSS as a derivation
 - `lib.withExtraCss`: append your own CSS to an existing stylesheet derivation
+- `lib.mkUserContent`: build Firefox-ready `userContent.css` in one step
 - bundled support for Catppuccin's Discord theme in addition to the main
   `catppuccin/userstyles` repository
 
