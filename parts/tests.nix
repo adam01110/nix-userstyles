@@ -1,32 +1,8 @@
 {inputs, ...}: let
-  testUserStyles = [
-    "brave-search"
-    "bsky"
-    "chatgpt"
-    "cinny"
-    "claude"
-    "devdocs"
-    "discord"
-    "duckduckgo"
-    "github"
-    "google"
-    "hacker-news"
-    "lobste.rs"
-    "nixos-*"
-    "npm"
-    "ollama"
-    "perplexity"
-    "reddit"
-    "spotify-web"
-    "stack-overflow"
-    "telegram"
-    "whatsapp-web"
-    "wikipedia"
-    "youtube"
-  ];
+  testUserStyles = import ../lib/testUserStyles.nix;
 in {
   perSystem = {mkUserStyles, ...}: let
-    inherit (inputs.nix-colors.colorSchemes.dracula) palette;
+    inherit (inputs.nix-colors.colorSchemes.gruvbox-dark-medium) palette;
   in {
     packages.test = mkUserStyles palette testUserStyles;
   };

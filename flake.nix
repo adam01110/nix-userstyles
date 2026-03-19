@@ -22,7 +22,7 @@
     };
 
     discord-userstyle = {
-      url = "https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css";
+      url = "github:catppuccin/discord";
       flake = false;
     };
   };

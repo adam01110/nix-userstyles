@@ -1,0 +1,140 @@
+{
+  catppuccin,
+  concatStringsSep,
+  escapeShellArg,
+  palette24,
+}: let
+  scssColorVars = concatStringsSep "\n" (
+    map (
+      mapping: "$" + mapping.name + ": #${palette24.${mapping.base}};"
+    )
+    catppuccin.replacements
+  );
+
+  scssPaletteMap = let
+    colorDecls =
+      map (
+        mapping: ''"${mapping.name}": #${palette24.${mapping.base}}''
+      )
+      catppuccin.replacements;
+    paletteDecl = "(${concatStringsSep ", " colorDecls})";
+  in ''
+    $palette: (
+      "latte": ${paletteDecl},
+      "frappe": ${paletteDecl},
+      "macchiato": ${paletteDecl},
+      "mocha": ${paletteDecl}
+    );
+  '';
+
+  scssHighlightTheme = ''
+    @use "@catppuccin/palette/scss/catppuccin";
+    @use "sass:color";
+    @use "sass:map";
+
+    $highlights: (
+      "keyword": "mauve",
+      "built_in": "red",
+      "type": "yellow",
+      "literal": "peach",
+      "number": "peach",
+      "operator": "sky",
+      "punctuation": "subtext1",
+      "property": "teal",
+      "regexp": "pink",
+      "string": "green",
+      "char.escape_": "green",
+      "subst": "subtext0",
+      "symbol": "flamingo",
+      "variable": "mauve",
+      "variable.language_": "mauve",
+      "variable.constant_": "peach",
+      "title": "blue",
+      "title.class_": "yellow",
+      "title.function_": "blue",
+      "params": "text",
+      "comment": "overlay2",
+      "doctag": "red",
+      "meta": "peach",
+      "section": "blue",
+      "tag": "teal",
+      "name": "mauve",
+      "attr": "blue",
+      "attribute": "green",
+      "bullet": "teal",
+      "code": "green",
+      "emphasis": "red",
+      "strong": "red",
+      "formula": "teal",
+      "link": "sapphire",
+      "quote": "green",
+      "selector-tag": "yellow",
+      "selector-id": "blue",
+      "selector-class": "teal",
+      "selector-attr": "mauve",
+      "selector-pseudo": "teal",
+      "template-tag": "flamingo",
+      "template-variable": "flamingo",
+      "addition": "green",
+      "deletion": "red",
+    );
+
+    $fontStyles: (
+      "emphasis": "italic",
+      "strong": "bold",
+      "link": "italic",
+      "quote": "italic",
+    );
+
+    @mixin highlights(
+      $flavor,
+      $format: "inject",
+      $prefix: "ctp-",
+      $important: false
+    ) {
+      $colors: map.get(catppuccin.$palette, $flavor);
+
+      &.hljs {
+        @if $format == "inject" {
+          color: map.get($colors, "text") if($important, !important, null);
+          background: map.get($colors, "base") if($important, !important, null);
+        }
+      }
+
+      @each $key, $value in $highlights {
+        .hljs-#{$key} {
+          @if $format == "inject" {
+            color: map.get($colors, $value) if($important, !important, null);
+          }
+
+          @if map.has-key($fontStyles, $key) {
+            @if map.get($fontStyles, $key) == "bold" {
+              font-weight: bold if($important, !important, null);
+            } @else if map.get($fontStyles, $key) == "italic" {
+              font-style: italic if($important, !important, null);
+            }
+          }
+
+          @if ($key == "addition" or $key == "deletion") {
+            @if $format == "inject" {
+              background: color.change(map.get($colors, $value), $alpha: 0.15)
+                if($important, !important, null);
+            }
+          }
+        }
+      }
+    }
+  '';
+
+  setupScript = ''
+    mkdir -p node_modules/@catppuccin/palette/scss
+    mkdir -p node_modules/@catppuccin/highlightjs/sass
+
+    printf '%s\n' ${escapeShellArg scssColorVars} > node_modules/@catppuccin/palette/scss/mocha.scss
+    printf '%s\n' ${escapeShellArg scssColorVars} > node_modules/@catppuccin/palette/scss/latte.scss
+    printf '%s\n' ${escapeShellArg scssPaletteMap} > node_modules/@catppuccin/palette/scss/catppuccin.scss
+    printf '%s\n' ${escapeShellArg scssHighlightTheme} > node_modules/@catppuccin/highlightjs/sass/theme.scss
+  '';
+in {
+  inherit setupScript;
+}

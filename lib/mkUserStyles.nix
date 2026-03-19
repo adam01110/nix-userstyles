@@ -8,8 +8,8 @@
   inherit
     (builtins)
     concatStringsSep
-    filter
     elem
+    filter
     ;
   inherit (lib) getExe;
   inherit (lib.attrsets) mapAttrsToList;
@@ -21,6 +21,9 @@
   catppuccinStyles = filter (s: s != "discord") userStyles;
 
   catppuccin = import ./catppuccin.nix;
+  discord = import ./discord.nix {
+    inherit catppuccin concatStringsSep escapeShellArg map palette24;
+  };
 
   palette24 =
     palette
@@ -39,6 +42,26 @@
       )
       vars
     );
+
+  lessPaletteDecl = colorDecls: "{ ${concatStringsSep " " colorDecls} };";
+
+  lessPaletteOverride = let
+    colorDecls =
+      map (
+        mapping: "@${mapping.name}: #${palette24.${mapping.base}};"
+      )
+      catppuccin.replacements;
+    flavors = [
+      "latte"
+      "frappe"
+      "macchiato"
+      "mocha"
+    ];
+  in ''
+    @catppuccin: {
+      ${concatStringsSep "\n      " (map (flavor: "@${flavor}: ${lessPaletteDecl colorDecls}") flavors)}
+    };
+  '';
 
   lessVars = {
     accentColor = "lavender";
@@ -78,26 +101,42 @@ in
     name = "userstyles.css";
     phases = ["buildPhase"];
     nativeBuildInputs = with pkgs; [
+      dart-sass
       lessc
     ];
 
     buildPhase = ''
       export NODE_PATH=${pkgs.nodePackages.less-plugin-clean-css}/lib/node_modules
 
+      cp "${catppuccin-userstyles}/lib/lib.less" lib-base16.less
+      chmod u+w lib-base16.less
+      printf '%s\n' ${escapeShellArg lessPaletteOverride} >> lib-base16.less
+
       # build catppuccin userstyles
       for style in ${catppuccinStylesStr}; do
         file="${catppuccin-userstyles}/styles/$style/catppuccin.user.less"
         if [ -f "$file" ]; then
-          (cat "${catppuccin-userstyles}/lib/lib.less"; cat "$file" | sed '\|@import "https://userstyles.catppuccin.com/lib/lib.less";|d'; echo ${escapeShellArg (lessVarDecl lessVars)}) | \
+          (cat lib-base16.less; cat "$file" | sed '\|@import "https://userstyles.catppuccin.com/lib/lib.less";|d'; echo ${escapeShellArg (lessVarDecl lessVars)}) | \
             lessc --source-map-no-annotation --clean-css="-b --s0 --skip-rebase --skip-advanced --skip-aggressive-merging --skip-shorthand-compacting" - >> catppuccin.userstyles.css
         fi
       done
 
       # add discord userstyle
-      if [ "${if buildDiscordStyle then "1" else "0"}" = "1" ]; then
+      if [ "${
+        if buildDiscordStyle
+        then "1"
+        else "0"
+      }" = "1" ]; then
+        ${discord.setupScript}
+
         {
           echo '@-moz-document domain("discord.com") {'
-          cat "${discord-userstyle}"
+          sass \
+            --load-path="$PWD/node_modules" \
+            --style=compressed \
+            --no-charset \
+            --no-source-map \
+            "${discord-userstyle}/src/catppuccin-mocha.theme.scss"
           echo '}'
         } >> extra.userstyles.css
       fi

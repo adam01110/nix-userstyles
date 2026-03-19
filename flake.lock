@@ -35,13 +35,17 @@
     "discord-userstyle": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-kQK+xOaUBqWXtGhyS2GuSMztQAMy7/jIz85mhjgBiDw=",
-        "type": "file",
-        "url": "https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css"
+        "lastModified": 1770426312,
+        "narHash": "sha256-rxvHIifq5CYIBPwFA2SpOrWT+sG/z0ItXT3sx2wbEqg=",
+        "owner": "catppuccin",
+        "repo": "discord",
+        "rev": "b9b5547f0b32296d2389716ef606de87b3c1e7c7",
+        "type": "github"
       },
       "original": {
-        "type": "file",
-        "url": "https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css"
+        "owner": "catppuccin",
+        "repo": "discord",
+        "type": "github"
       }
     },
     "flake-parts": {
