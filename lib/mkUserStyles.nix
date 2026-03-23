@@ -146,13 +146,15 @@ in
 
       # replace catppuccin mocha colors with user-defined palette colors
       cat catppuccin.userstyles.css extra.userstyles.css > userstyles.css 2>/dev/null || cat extra.userstyles.css > userstyles.css
-      substituteInPlace userstyles.css \
-        ${concatStringsSep " \\\n        " (
-        map (
-          mapping: "--replace-warn ${escapeShellArg catppuccin.palette.${mapping.name}} ${escapeShellArg palette24.${mapping.base}}"
+      printf '%s\n' ${escapeShellArg (
+        concatStringsSep "\n" (
+          map (
+            mapping: "s|${catppuccin.palette.${mapping.name}}|${palette24.${mapping.base}}|gI"
+          )
+          catppuccin.replacements
         )
-        catppuccin.replacements
-      )}
+      )} > palette-replacements.sed
+      sed -i -f palette-replacements.sed userstyles.css
 
       # !important
       ${getExe importantize} < userstyles.css > $out

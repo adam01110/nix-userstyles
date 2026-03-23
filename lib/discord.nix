@@ -96,29 +96,49 @@
 
       &.hljs {
         @if $format == "inject" {
-          color: map.get($colors, "text") if($important, !important, null);
-          background: map.get($colors, "base") if($important, !important, null);
+          @if $important {
+            color: map.get($colors, "text") !important;
+            background: map.get($colors, "base") !important;
+          } @else {
+            color: map.get($colors, "text");
+            background: map.get($colors, "base");
+          }
         }
       }
 
       @each $key, $value in $highlights {
         .hljs-#{$key} {
           @if $format == "inject" {
-            color: map.get($colors, $value) if($important, !important, null);
+            @if $important {
+              color: map.get($colors, $value) !important;
+            } @else {
+              color: map.get($colors, $value);
+            }
           }
 
           @if map.has-key($fontStyles, $key) {
             @if map.get($fontStyles, $key) == "bold" {
-              font-weight: bold if($important, !important, null);
+              @if $important {
+                font-weight: bold !important;
+              } @else {
+                font-weight: bold;
+              }
             } @else if map.get($fontStyles, $key) == "italic" {
-              font-style: italic if($important, !important, null);
+              @if $important {
+                font-style: italic !important;
+              } @else {
+                font-style: italic;
+              }
             }
           }
 
           @if ($key == "addition" or $key == "deletion") {
             @if $format == "inject" {
-              background: color.change(map.get($colors, $value), $alpha: 0.15)
-                if($important, !important, null);
+              @if $important {
+                background: color.change(map.get($colors, $value), $alpha: 0.15) !important;
+              } @else {
+                background: color.change(map.get($colors, $value), $alpha: 0.15);
+              }
             }
           }
         }
