@@ -1,6 +1,6 @@
 {pkgs, ...}:
 pkgs.writers.writeJSBin "importantize" {
-  libraries = [pkgs.nodePackages.postcss];
+  libraries = [pkgs.postcss];
 } ''
   const postcss = require("postcss");
 

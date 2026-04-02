@@ -104,13 +104,12 @@ in
     name = "userstyles.css";
     phases = ["buildPhase"];
     nativeBuildInputs = with pkgs; [
+      clean-css-cli
       dart-sass
       lessc
     ];
 
     buildPhase = ''
-      export NODE_PATH=${pkgs.nodePackages.less-plugin-clean-css}/lib/node_modules
-
       cp "${catppuccin-userstyles}/lib/lib.less" lib-base16.less
       chmod u+w lib-base16.less
       printf '%s\n' ${escapeShellArg lessPaletteOverride} >> lib-base16.less
@@ -120,7 +119,8 @@ in
         file="${catppuccin-userstyles}/styles/$style/catppuccin.user.less"
         if [ -f "$file" ]; then
           (cat lib-base16.less; cat "$file" | sed '\|@import "https://userstyles.catppuccin.com/lib/lib.less";|d'; echo ${escapeShellArg (lessVarDecl lessVars)}) | \
-            lessc --source-map-no-annotation --clean-css="-b --s0 --skip-rebase --skip-advanced --skip-aggressive-merging --skip-shorthand-compacting" - >> catppuccin.userstyles.css
+            lessc --source-map-no-annotation - | \
+            cleancss -O1 >> catppuccin.userstyles.css
         fi
       done
 
