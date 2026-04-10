@@ -1,7 +1,5 @@
 <div align="center">
   <img src="./assets/nix-logo.png" alt="Nix logo" width="112" />
-  <br />
-  <img src="./assets/screenshot.png" alt="nix-userstyles preview" width="560" />
 
   # nix-userstyles
 
@@ -18,6 +16,10 @@
 </div>
 
 This repository packages the upstream [`catppuccin/userstyles`](https://github.com/catppuccin/userstyles) themes, compiles them with Nix, and swaps the Catppuccin Mocha palette for your own Base16 palette. It also includes bundled support for the Catppuccin Discord theme.
+
+<div align="center">
+  <img src="./assets/screenshot.png" alt="nix-userstyles preview" width="560" />
+</div>
 
 ## Overview
 
