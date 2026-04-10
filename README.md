@@ -1,5 +1,6 @@
 <div align="center">
   <img src="./assets/nix-logo.png" alt="Nix logo" width="112" />
+  <br />
   <img src="./assets/screenshot.png" alt="nix-userstyles preview" width="560" />
 
   # nix-userstyles
