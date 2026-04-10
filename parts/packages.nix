@@ -7,7 +7,13 @@
     import ../lib/mkUserStyles.nix {
       inherit pkgs;
       inherit (pkgs) lib;
-      inherit (inputs) catppuccin-userstyles discord-userstyle;
+      inherit
+        (inputs)
+        # keep-sorted start
+        catppuccin-userstyles
+        discord-userstyle
+        # keep-sorted end
+        ;
     };
 
   withExtraCssFor = pkgs:
@@ -17,32 +23,40 @@
     };
 
   mkUserContentFor = pkgs: let
+    # keep-sorted start
     mkUserStyles = mkUserStylesFor pkgs;
     withExtraCss = withExtraCssFor pkgs;
+    # keep-sorted end
   in
     {
+      # keep-sorted start
+      extraCss ? "",
       palette,
       userStyles,
-      extraCss ? "",
+      # keep-sorted end
     }:
       withExtraCss (mkUserStyles palette userStyles) extraCss;
 in {
-  flake.lib.mkUserStyles = system: mkUserStylesFor (mkPkgs system);
-
-  flake.lib.withExtraCss = system: withExtraCssFor (mkPkgs system);
-
-  flake.lib.mkUserContent = system: mkUserContentFor (mkPkgs system);
+  flake.lib = {
+    # keep-sorted start
+    mkUserContent = system: mkUserContentFor (mkPkgs system);
+    mkUserStyles = system: mkUserStylesFor (mkPkgs system);
+    withExtraCss = system: withExtraCssFor (mkPkgs system);
+    # keep-sorted end
+  };
 
   perSystem = {pkgs, ...}: let
+    # keep-sorted start
+    inherit (inputs.nix-colors.colorSchemes.gruvbox-dark-medium) palette;
+    mkUserContent = mkUserContentFor pkgs;
     mkUserStyles = mkUserStylesFor pkgs;
     withExtraCss = withExtraCssFor pkgs;
-    mkUserContent = mkUserContentFor pkgs;
-    inherit (inputs.nix-colors.colorSchemes.gruvbox-dark-medium) palette;
+    # keep-sorted end
   in {
     _module.args = {
+      inherit mkUserContent;
       inherit mkUserStyles;
       inherit withExtraCss;
-      inherit mkUserContent;
     };
 
     packages.default = mkUserStyles palette testUserStyles;

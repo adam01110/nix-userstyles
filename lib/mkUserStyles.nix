@@ -1,28 +1,36 @@
 {
-  pkgs,
-  lib,
+  # keep-sorted start
   catppuccin-userstyles,
   discord-userstyle,
+  lib,
+  pkgs,
+  # keep-sorted end
   ...
 } @ inputs: palette: userStyles: let
   inherit
     (builtins)
+    # keep-sorted start
     concatStringsSep
     elem
     filter
+    # keep-sorted end
     ;
   inherit (lib) getExe;
   inherit (lib.attrsets) mapAttrsToList;
-  inherit
-    (lib.strings)
-    escapeShellArg
-    ;
+  inherit (lib.strings) escapeShellArg;
   importantize = pkgs.callPackage ./importantize.nix inputs;
   catppuccinStyles = filter (s: s != "discord") userStyles;
 
   catppuccin = import ./catppuccin.nix;
   discord = import ./discord.nix {
-    inherit catppuccin concatStringsSep escapeShellArg palette24;
+    inherit
+      # keep-sorted start
+      catppuccin
+      concatStringsSep
+      escapeShellArg
+      palette24
+      # keep-sorted end
+      ;
   };
 
   palette24 =
@@ -52,10 +60,12 @@
       )
       catppuccin.replacements;
     flavors = [
-      "latte"
+      # keep-sorted start
       "frappe"
+      "latte"
       "macchiato"
       "mocha"
+      # keep-sorted end
     ];
   in ''
     @catppuccin: {
@@ -64,6 +74,7 @@
   '';
 
   lessVars = {
+    # keep-sorted start
     accentColor = "lavender";
     additions = 0;
     applyToDocument = 0;
@@ -72,9 +83,10 @@
     checkColor = "red";
     colorizeLogo = 0;
     contrastColor = "@accentColor";
-    darkenShadows = 1;
     darkFlavor = "mocha";
+    darkenShadows = 1;
     graphUseAccentColor = 1;
+    hideColorSampleTint = 1;
     hideProfilePictures = 0;
     highlight-redirect = 0;
     highlightColor = "@accentColor";
@@ -82,9 +94,9 @@
     highlightColor2 = "green";
     highlightColor3 = "peach";
     highlightColor4 = "blue";
-    lighterMessages = 0;
     lastMoveColor = "red";
     lightFlavor = "mocha";
+    lighterMessages = 0;
     logo = 1;
     oled = 0;
     sponsorBlock = 1;
@@ -94,7 +106,7 @@
     styleVideoPlayer = 1;
     urls = "localhost";
     zen = 0;
-    hideColorSampleTint = 1;
+    # keep-sorted end
   };
 
   catppuccinStylesStr = concatStringsSep " " catppuccinStyles;

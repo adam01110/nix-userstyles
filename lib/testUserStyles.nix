@@ -1,4 +1,5 @@
 [
+  # keep-sorted start
   "advent-of-code"
   "alacritty.org"
   "alternativeto"
@@ -23,8 +24,9 @@
   "deepl"
   "deepseek"
   "desmos"
-  "devdocs"
   "dev.to"
+  "devdocs"
+  "discord"
   "docs.deno.com"
   "docs.rs"
   "duckduckgo"
@@ -133,5 +135,5 @@
   "wikiwand"
   "youtube"
   "zen-browser-docs"
-  "discord"
+  # keep-sorted end
 ]

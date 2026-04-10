@@ -1,8 +1,10 @@
 {
+  # keep-sorted start
   catppuccin,
   concatStringsSep,
   escapeShellArg,
   palette24,
+  # keep-sorted end
 }: let
   scssColorVars = concatStringsSep "\n" (
     map (

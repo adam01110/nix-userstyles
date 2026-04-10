@@ -5,7 +5,9 @@ in {
     inherit (inputs.nix-colors.colorSchemes.gruvbox-dark-medium) palette;
     testPackage = mkUserStyles palette testUserStyles;
   in {
-    packages.test = testPackage;
+    # keep-sorted start
     checks.test = testPackage;
+    packages.test = testPackage;
+    # keep-sorted end
   };
 }

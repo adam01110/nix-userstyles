@@ -1,6 +1,8 @@
 {
-  pkgs,
+  # keep-sorted start
   lib,
+  pkgs,
+  # keep-sorted end
   ...
 }: cssFile: extraCss: let
   inherit (lib.strings) escapeShellArg;
