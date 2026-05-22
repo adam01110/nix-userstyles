@@ -19,11 +19,11 @@
     "catppuccin-userstyles": {
       "flake": false,
       "locked": {
-        "lastModified": 1778770939,
-        "narHash": "sha256-n7Pz/S7mHLMotIK/D4w5OWhXu+ddJfDUFa8alJ7BqLk=",
+        "lastModified": 1779280428,
+        "narHash": "sha256-kcssEdPAW27y7UN3x1Go7l6GDcpqoVmO0qEG085rPyg=",
         "owner": "catppuccin",
         "repo": "userstyles",
-        "rev": "1098257238a49e47c86448b346ebd923ae85b0dd",
+        "rev": "bad308b8d0b3eb6cdbb975dbe99ecd5ec9f479be",
         "type": "github"
       },
       "original": {
@@ -104,11 +104,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1778672786,
-        "narHash": "sha256-Blg88K1jwG+P0Mr27+rKMFCufdrWkV3wWh9AdYtz0FQ=",
+        "lastModified": 1779259093,
+        "narHash": "sha256-7DKWmH23hL2eYdkxCKeqj2i+yljTKuU+3Nk1UPHOnxc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "eef00dfd8a712b34af845f9350bac681b1228bd1",
+        "rev": "d99b013d5d1931ad77fe3912ed218170dec5d9a4",
         "type": "github"
       },
       "original": {
