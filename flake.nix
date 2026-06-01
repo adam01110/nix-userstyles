@@ -41,6 +41,6 @@
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = import systems;
-      imports = [(import-tree ./parts)];
+      imports = [(import-tree ./modules)];
     };
 }
