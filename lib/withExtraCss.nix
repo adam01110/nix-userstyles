@@ -1,18 +1,19 @@
-{
-  # keep-sorted start
-  lib,
-  pkgs,
-  # keep-sorted end
-  ...
-}: cssFile: extraCss: let
-  inherit (lib.strings) escapeShellArg;
+{pkgs, ...}: cssFile: extraCss: let
+  inherit
+    (pkgs)
+    # keep-sorted start
+    concatText
+    writeText
+    # keep-sorted end
+    ;
 in
-  pkgs.runCommand "userContent.css" {} ''
-    extraCss=${escapeShellArg extraCss}
+  if extraCss == ""
+  then cssFile
+  else
+    concatText "userContent.css" [
+      cssFile
+      (writeText "extra.css" ''
 
-    cat ${cssFile} > $out
-
-    if [ -n "$extraCss" ]; then
-      printf '\n%s\n' "$extraCss" >> $out
-    fi
-  ''
+        ${extraCss}
+      '')
+    ]

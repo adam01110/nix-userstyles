@@ -61,12 +61,20 @@ in {
       inherit palette;
       userStyles = [
         "github"
-        "reddit"
+        {
+          name = "reddit";
+          defaultSites = true;
+          sites = [ ''domain("old.reddit.com")'' ];
+        }
         "youtube"
       ];
     };
 }
 ```
+
+Each `userStyles` entry can be either a style name string or an attribute set. Attribute set entries accept `name`, `defaultSites`, and `sites`. `defaultSites` defaults to `true`, so configured `sites` are added to the upstream Catppuccin site selectors. Set `defaultSites = false` to replace the upstream selectors with your own.
+
+`sites` entries are raw Firefox `@-moz-document` selector fragments, such as `''domain("example.com")''`, `''url-prefix("https://example.com/app")''`, or `''regexp("https://example\\.com/.*")''`.
 
 ### Append your own CSS
 

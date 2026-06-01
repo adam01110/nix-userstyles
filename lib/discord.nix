@@ -2,10 +2,18 @@
   # keep-sorted start
   catppuccin,
   concatStringsSep,
-  escapeShellArg,
   palette24,
+  pkgs,
   # keep-sorted end
 }: let
+  inherit
+    (pkgs)
+    # keep-sorted start
+    symlinkJoin
+    writeTextDir
+    # keep-sorted end
+    ;
+
   scssColorVars = concatStringsSep "\n" (
     map (
       mapping: "$" + mapping.name + ": #${palette24.${mapping.base}};"
@@ -148,15 +156,15 @@
     }
   '';
 
-  setupScript = ''
-    mkdir -p node_modules/@catppuccin/palette/scss
-    mkdir -p node_modules/@catppuccin/highlightjs/sass
-
-    printf '%s\n' ${escapeShellArg scssColorVars} > node_modules/@catppuccin/palette/scss/mocha.scss
-    printf '%s\n' ${escapeShellArg scssColorVars} > node_modules/@catppuccin/palette/scss/latte.scss
-    printf '%s\n' ${escapeShellArg scssPaletteMap} > node_modules/@catppuccin/palette/scss/catppuccin.scss
-    printf '%s\n' ${escapeShellArg scssHighlightTheme} > node_modules/@catppuccin/highlightjs/sass/theme.scss
-  '';
+  sassLoadPath = symlinkJoin {
+    name = "discord-sass-load-path";
+    paths = [
+      (writeTextDir "@catppuccin/highlightjs/sass/theme.scss" scssHighlightTheme)
+      (writeTextDir "@catppuccin/palette/scss/catppuccin.scss" scssPaletteMap)
+      (writeTextDir "@catppuccin/palette/scss/latte.scss" scssColorVars)
+      (writeTextDir "@catppuccin/palette/scss/mocha.scss" scssColorVars)
+    ];
+  };
 in {
-  inherit setupScript;
+  inherit sassLoadPath;
 }

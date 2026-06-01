@@ -1,4 +1,6 @@
 {
+  description = "Small flake library for generating Firefox userstyles from the upstream Catppuccin themes, then remapping them to any Base16-compatible palette.";
+
   inputs = {
     # keep-sorted start block=yes newline_separated=yes
     catppuccin-userstyles = {
