@@ -1,16 +1,10 @@
 when:
   - event: ["manual"]
-
 engine: "nixery"
-
 dependencies:
   nixpkgs:
     - git
     - nix
-
-environment:
-  NIX_CONFIG: "experimental-features = nix-command flakes"
-
 steps:
   - name: "Update flake.lock"
     command: |
