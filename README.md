@@ -3,7 +3,7 @@
 
   # nix-userstyles
 
-  Small flake library for generating Firefox userstyles from the upstream Catppuccin themes, then remapping them to any Base16-compatible palette.
+  My small Nix flake for turning Catppuccin userstyles into Firefox CSS that follows whatever Base16 palette I am using.
 
   [![CI](https://img.shields.io/github/actions/workflow/status/adam01110/nix-userstyles/ci.yml?branch=main&style=flat-square&label=CI&labelColor=504945&color=cc241d)](https://github.com/adam01110/nix-userstyles/actions/workflows/ci.yml)
   [![Repo Size](https://img.shields.io/github/repo-size/adam01110/nix-userstyles?style=flat-square&label=repo%20size&labelColor=504945&color=3c3836)](https://github.com/adam01110/nix-userstyles)
@@ -12,10 +12,14 @@
   [![Catppuccin](https://img.shields.io/badge/Catppuccin-userstyles-b16286?style=flat-square&labelColor=504945&color=b16286)](https://github.com/catppuccin/userstyles)
   [![Firefox](https://img.shields.io/badge/Firefox-userContent.css-458588?style=flat-square&labelColor=504945&logo=firefoxbrowser&logoColor=ebdbb2)](https://support.mozilla.org/en-US/kb/contributors-guide-firefox-advanced-customization)
 
-  [Overview](#overview) - [Usage](#usage) - [Library](#library) - [Development](#development) - [Notes](#notes)
+  [Overview](#overview) - [Usage](#usage) - [Library](#library) - [Notes](#notes)
 </div>
 
-This repository packages the upstream [`catppuccin/userstyles`](https://github.com/catppuccin/userstyles) themes, compiles them with Nix, and swaps the Catppuccin Mocha palette for your own Base16 palette. It also includes bundled support for the Catppuccin Discord theme.
+I made this because the original project was missing features I wanted and had gone quiet. The maintainer also moved toward AI-generated userstyles, which is not really what I wanted from this tool.
+
+This version keeps the idea simple: build upstream [`catppuccin/userstyles`](https://github.com/catppuccin/userstyles), swap the Catppuccin Mocha colors for a Base16 palette, and output a ready-to-use `userContent.css` that fits the rest of my setup.
+
+It also has bundled handling for the Catppuccin Discord theme and the Tangled Catppuccin style, since those are not in the main userstyles repo.
 
 <div align="center">
   <img src="./assets/screenshot.png" alt="nix-userstyles preview" width="560" />
@@ -23,11 +27,12 @@ This repository packages the upstream [`catppuccin/userstyles`](https://github.c
 
 ## Overview
 
-- Exposes three library helpers: `mkUserStyles`, `withExtraCss`, and `mkUserContent`.
-- Builds upstream LESS and SCSS sources into a single stylesheet derivation.
-- Replaces Catppuccin tokens with Base16 and derived Base24-style color slots.
-- Marks generated declarations as `!important` so they win against site styles more reliably.
-- Ships example package outputs for plain styles, Firefox-ready `userContent.css`, and appended custom CSS.
+- Builds Catppuccin userstyles through Nix instead of keeping generated CSS in my config repo.
+- Remaps the Mocha palette to any Base16-style palette, including palettes from `nix-colors` or Stylix.
+- Produces plain CSS or Firefox-ready `userContent.css`.
+- Lets me mix upstream site selectors with my own `@-moz-document` selectors.
+- Appends extra CSS when I need small local fixes that are not worth upstreaming.
+- Forces generated declarations to `!important`, because site CSS usually does not play nice.
 
 ## Usage
 
@@ -72,7 +77,9 @@ in {
 }
 ```
 
-Each `userStyles` entry can be either a style name string or an attribute set. Attribute set entries accept `name`, `defaultSites`, and `sites`. `defaultSites` defaults to `true`, so configured `sites` are added to the upstream Catppuccin site selectors. Set `defaultSites = false` to replace the upstream selectors with your own.
+Each `userStyles` entry can be either a style name string or an attribute set. Attribute set entries accept `name`, `defaultSites`, and `sites`.
+
+`defaultSites` defaults to `true`, so custom `sites` are added to the upstream Catppuccin selectors. Set `defaultSites = false` when you want to replace the upstream selectors completely.
 
 `sites` entries are raw Firefox `@-moz-document` selector fragments, such as `''domain("example.com")''`, `''url-prefix("https://example.com/app")''`, or `''regexp("https://example\\.com/.*")''`.
 
@@ -137,17 +144,17 @@ in {
 ```
 
 > [!NOTE]
-> The palette must provide the standard Base16 keys: `base00` through `base0F`. Additional slots used internally for Catppuccin's palette mapping are derived automatically.
+> The palette must provide the standard Base16 keys from `base00` through `base0F`. The extra color slots needed for the Catppuccin mapping are derived automatically.
 
 ## Library
 
-| Export | Role |
+| Export | What I use it for |
 | --- | --- |
-| `lib.mkUserStyles` | Build generated upstream CSS as a derivation |
-| `lib.withExtraCss` | Append additional CSS to an existing stylesheet derivation |
-| `lib.mkUserContent` | Build Firefox-ready `userContent.css` in one step |
+| `lib.mkUserStyles` | Build the generated stylesheet derivation |
+| `lib.withExtraCss` | Append local CSS to an existing stylesheet derivation |
+| `lib.mkUserContent` | Build a complete Firefox `userContent.css` in one call |
 
-The repository also exposes a few package outputs on each supported system:
+The flake also exposes a few package outputs for quick testing:
 
 | Output | Role |
 | --- | --- |
@@ -156,32 +163,13 @@ The repository also exposes a few package outputs on each supported system:
 | `packages.with-extra-css` | Generated stylesheet with appended custom CSS |
 | `packages.test` | Same build used by CI checks |
 
-## Development
-
-From the repository root:
-
-```bash
-# Inspect flake outputs
-nix flake show --all-systems
-
-# Run CI-equivalent checks
-nix flake check
-
-# Format the repository
-nix fmt
-
-# Enter the dev shell
-nix develop
-```
-
-Formatting is configured through `treefmt`.
-
 ## Notes
 
-- Style names come from the upstream Catppuccin repositories. The bundled test list in `lib/testUserStyles.nix` is a good reference for known working names.
-- `discord` is handled separately from the main `catppuccin/userstyles` tree and is compiled from the upstream SCSS theme.
-- `tangled` is handled separately from the main `catppuccin/userstyles` tree and is compiled from [`csw.im/tangled-catppuccin`](https://tangled.org/csw.im/tangled-catppuccin).
+- Style names come from the upstream Catppuccin repositories. `lib/testUserStyles.nix` is the easiest place to check the list I test against.
+- `discord` is built separately from the upstream Discord SCSS theme.
+- `tangled` is built separately from [`csw.im/tangled-catppuccin`](https://tangled.org/csw.im/tangled-catppuccin).
 - The generated CSS is post-processed so every declaration becomes `!important`.
+- This is mostly built for my own Firefox setup, but the helpers should be reusable if your config is also palette-driven.
 
 ## Credits
 
