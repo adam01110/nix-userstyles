@@ -41,9 +41,7 @@ Add the flake as an input and use one of the exported helpers from `nix-userstyl
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-userstyles.url = "github:adam01110/nix-userstyles";
-    nix-colors.url = "github:misterio77/nix-colors";
   };
 }
 ```
