@@ -4,6 +4,7 @@
   discord-userstyle,
   lib,
   pkgs,
+  tangled-catppuccin,
   # keep-sorted end
   ...
 } @ inputs: palette: userStyles: let
@@ -37,6 +38,7 @@
       lib
       palette24
       pkgs
+      tangled-catppuccin
       # keep-sorted end
       ;
   };

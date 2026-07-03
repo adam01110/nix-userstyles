@@ -140,6 +140,7 @@
         "nix-colors": "nix-colors",
         "nixpkgs": "nixpkgs",
         "systems": "systems",
+        "tangled-catppuccin": "tangled-catppuccin",
         "treefmt-nix": "treefmt-nix"
       }
     },
@@ -156,6 +157,22 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "tangled-catppuccin": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783094318,
+        "narHash": "sha256-B7kn9bplozrpusIn6RM75Wk41XTBKINy8xeTv9acI8M=",
+        "ref": "refs/heads/main",
+        "rev": "16892445aad8938903cdf63e24000d046dd041c0",
+        "revCount": 21,
+        "type": "git",
+        "url": "https://tangled.org/csw.im/tangled-catppuccin"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://tangled.org/csw.im/tangled-catppuccin"
       }
     },
     "treefmt-nix": {

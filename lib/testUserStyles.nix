@@ -121,6 +121,7 @@
   "substack"
   "syncthing"
   "tabnews"
+  "tangled"
   "tldraw"
   "trinket"
   "tuta"

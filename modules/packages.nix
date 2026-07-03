@@ -12,6 +12,7 @@
         # keep-sorted start
         catppuccin-userstyles
         discord-userstyle
+        tangled-catppuccin
         # keep-sorted end
         ;
     };

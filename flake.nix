@@ -26,6 +26,11 @@
 
     systems.url = "github:nix-systems/default";
 
+    tangled-catppuccin = {
+      url = "git+https://tangled.org/csw.im/tangled-catppuccin";
+      flake = false;
+    };
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";

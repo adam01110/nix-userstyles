@@ -180,6 +180,7 @@ Formatting is configured through `treefmt`.
 
 - Style names come from the upstream Catppuccin repositories. The bundled test list in `lib/testUserStyles.nix` is a good reference for known working names.
 - `discord` is handled separately from the main `catppuccin/userstyles` tree and is compiled from the upstream SCSS theme.
+- `tangled` is handled separately from the main `catppuccin/userstyles` tree and is compiled from [`csw.im/tangled-catppuccin`](https://tangled.org/csw.im/tangled-catppuccin).
 - The generated CSS is post-processed so every declaration becomes `!important`.
 
 ## Credits
@@ -187,4 +188,5 @@ Formatting is configured through `treefmt`.
 - [Original project (`knoopx/nix-userstyles`)](https://github.com/knoopx/nix-userstyles)
 - [Catppuccin userstyles](https://github.com/catppuccin/userstyles)
 - [Catppuccin Discord theme](https://github.com/catppuccin/discord)
+- [Tangled Catppuccin](https://tangled.org/csw.im/tangled-catppuccin)
 - [nix-colors](https://github.com/misterio77/nix-colors)

@@ -5,6 +5,7 @@
   lib,
   palette24,
   pkgs,
+  tangled-catppuccin,
   # keep-sorted end
 }: let
   inherit
@@ -91,6 +92,7 @@
     styleBoardAndPieces = 1;
     stylePieces = 1;
     styleVideoPlayer = 1;
+    systemFont = 0;
     urls = "localhost";
     zen = 0;
     # keep-sorted end
@@ -121,7 +123,10 @@
 
   buildCommands = styleConfigs:
     concatMap (style: let
-      stylePath = "${catppuccin-userstyles}/styles/${style.name}/catppuccin.user.less";
+      stylePath =
+        if style.name == "tangled"
+        then "${tangled-catppuccin}/tangled.user.less"
+        else "${catppuccin-userstyles}/styles/${style.name}/catppuccin.user.less";
       styleSource = writeText "${sanitizeDerivationName style.name}.user.less" ''
         @import "${catppuccin-userstyles}/lib/lib.less";
 
