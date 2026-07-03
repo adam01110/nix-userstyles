@@ -3,6 +3,8 @@
 
   perSystem = _: {
     treefmt = {
+      settings.global.excludes = [".envrc"];
+
       programs = {
         # keep-sorted start
         alejandra.enable = true;
