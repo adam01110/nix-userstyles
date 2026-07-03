@@ -3,7 +3,7 @@
 
   # nix-userstyles
 
-  My small Nix flake for turning Catppuccin userstyles into Firefox CSS that follows whatever Base16 palette I am using.
+  Turn Catppuccin userstyles into Firefox userContent.css with Base16 palettes.
 
   [![CI](https://img.shields.io/github/actions/workflow/status/adam01110/nix-userstyles/ci.yml?branch=main&style=flat-square&label=CI&labelColor=504945&color=cc241d)](https://github.com/adam01110/nix-userstyles/actions/workflows/ci.yml)
   [![Repo Size](https://img.shields.io/github/repo-size/adam01110/nix-userstyles?style=flat-square&label=repo%20size&labelColor=504945&color=3c3836)](https://github.com/adam01110/nix-userstyles)
