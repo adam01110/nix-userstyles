@@ -22,12 +22,12 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    nixpkgs.url = "nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     systems.url = "github:nix-systems/default";
 
     tangled-catppuccin = {
-      url = "git+https://tangled.org/csw.im/tangled-catppuccin";
+      url = "https://tangled.org/csw.im/tangled-catppuccin/archive/main?format=tar.gz";
       flake = false;
     };
 

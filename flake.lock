@@ -19,11 +19,11 @@
     "catppuccin-userstyles": {
       "flake": false,
       "locked": {
-        "lastModified": 1781454464,
-        "narHash": "sha256-EerDaMwPCNjkVLZdcJkU2UGFn1FDKEBMAycEsw8ImsU=",
+        "lastModified": 1783836885,
+        "narHash": "sha256-8RSb6ud3jTRMN44fH2EAxOuRT4hxdAjIFwoTU5YxhXM=",
         "owner": "catppuccin",
         "repo": "userstyles",
-        "rev": "cef1f1429e459a8f76db2a1a2f2ccc9bd37e00b4",
+        "rev": "6afe54b76b4ad15db94ad5c8114ad748e4a4a96b",
         "type": "github"
       },
       "original": {
@@ -104,16 +104,18 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1782918843,
-        "narHash": "sha256-mFP086y1bNA1g9AsY/pCue3H3W2R7ayroHyRbZrcMf0=",
-        "rev": "e8273b29fe1390ec8d4603f2477357555291432e",
-        "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1025900.e8273b29fe13/nixexprs.tar.xz"
+        "lastModified": 1784115452,
+        "narHash": "sha256-BoYPdqk6jlKXy+DyUzyGV/CtRGfAhk2MmIgBhsemTGI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "35d3407a3816f3b341d8cf1d60abaf2b7b8166ac",
+        "type": "github"
       },
       "original": {
-        "id": "nixpkgs",
+        "owner": "NixOS",
         "ref": "nixpkgs-unstable",
-        "type": "indirect"
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "nixpkgs-lib": {
@@ -162,17 +164,13 @@
     "tangled-catppuccin": {
       "flake": false,
       "locked": {
-        "lastModified": 1783094318,
-        "narHash": "sha256-B7kn9bplozrpusIn6RM75Wk41XTBKINy8xeTv9acI8M=",
-        "ref": "refs/heads/main",
-        "rev": "16892445aad8938903cdf63e24000d046dd041c0",
-        "revCount": 21,
-        "type": "git",
-        "url": "https://tangled.org/csw.im/tangled-catppuccin"
+        "narHash": "sha256-rSIl9hEnShlFMf5PjQ331s0iQHsqnkqwx+cd7eLQXvI=",
+        "type": "file",
+        "url": "https://tangled.org/csw.im/tangled-catppuccin/archive/main?format=tar.gz"
       },
       "original": {
-        "type": "git",
-        "url": "https://tangled.org/csw.im/tangled-catppuccin"
+        "type": "file",
+        "url": "https://tangled.org/csw.im/tangled-catppuccin/archive/main?format=tar.gz"
       }
     },
     "treefmt-nix": {
