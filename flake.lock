@@ -164,12 +164,13 @@
     "tangled-catppuccin": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-rSIl9hEnShlFMf5PjQ331s0iQHsqnkqwx+cd7eLQXvI=",
-        "type": "file",
-        "url": "https://tangled.org/csw.im/tangled-catppuccin/archive/main?format=tar.gz"
+        "lastModified": 1783198809,
+        "narHash": "sha256-pcMyCO0r9ZC6Nbx8xSI4QexZ3/eoeXQbJSlaEUAkm9k=",
+        "type": "tarball",
+        "url": "https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr/archive/eefa60c601ff382e70386f737e3d5c8ca13b8375.tar.gz"
       },
       "original": {
-        "type": "file",
+        "type": "tarball",
         "url": "https://tangled.org/csw.im/tangled-catppuccin/archive/main?format=tar.gz"
       }
     },
