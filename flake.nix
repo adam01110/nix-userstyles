@@ -27,7 +27,7 @@
     systems.url = "github:nix-systems/default";
 
     tangled-catppuccin = {
-      url = "tarball+https://tangled.org/csw.im/tangled-catppuccin/archive/main?format=tar.gz";
+      url = "git+https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr";
       flake = false;
     };
 

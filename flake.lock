@@ -166,12 +166,15 @@
       "locked": {
         "lastModified": 1783198809,
         "narHash": "sha256-pcMyCO0r9ZC6Nbx8xSI4QexZ3/eoeXQbJSlaEUAkm9k=",
-        "type": "tarball",
-        "url": "https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr/archive/eefa60c601ff382e70386f737e3d5c8ca13b8375.tar.gz"
+        "ref": "refs/heads/main",
+        "rev": "eefa60c601ff382e70386f737e3d5c8ca13b8375",
+        "revCount": 35,
+        "type": "git",
+        "url": "https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://tangled.org/csw.im/tangled-catppuccin/archive/main?format=tar.gz"
+        "type": "git",
+        "url": "https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr"
       }
     },
     "treefmt-nix": {
