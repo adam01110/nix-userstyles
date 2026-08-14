@@ -128,7 +128,7 @@
         then "${tangled-catppuccin}/tangled.user.less"
         else "${catppuccin-userstyles}/styles/${style.name}/catppuccin.user.less";
       styleSource = writeText "${sanitizeDerivationName style.name}.user.less" ''
-        @import "${catppuccin-userstyles}/lib/lib.less";
+        @import "${catppuccin-userstyles}/lib/std/v1.less";
 
         ${lessPaletteOverride}
 
