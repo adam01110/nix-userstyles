@@ -21,12 +21,22 @@
     (pkgs)
     # keep-sorted start
     callPackage
+    fetchFromGitHub
     stdenvNoCC
     # keep-sorted end
     ;
   inherit (stdenvNoCC) mkDerivation;
 
   importantize = callPackage ./importantize.nix inputs;
+  lessc = pkgs.lessc.overrideAttrs (finalAttrs: {
+    version = "4.8.1";
+    src = fetchFromGitHub {
+      owner = "less";
+      repo = "less.js";
+      tag = "v${finalAttrs.version}";
+      hash = "sha256-dAp0I4Zwf7kziH6iYg2lrjPAehurDn/emKkC5vSWDLg=";
+    };
+  });
   catppuccin = import ./catppuccin.nix;
   palette24 = import ./mkUserStyles/palette.nix {inherit palette;};
   configs = import ./mkUserStyles/configs.nix {inherit userStyles;};
@@ -59,11 +69,11 @@ in
     mkDerivation {
       name = "userstyles.css";
       phases = ["buildPhase"];
-      nativeBuildInputs = with pkgs; [
+      nativeBuildInputs = [
         # keep-sorted start
-        clean-css-cli
-        dart-sass
         lessc
+        pkgs.clean-css-cli
+        pkgs.dart-sass
         # keep-sorted end
       ];
 

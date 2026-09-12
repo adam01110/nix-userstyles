@@ -98,7 +98,13 @@
     # keep-sorted end
   };
 
-  stripLibImport = replaceStrings [''@import "https://userstyles.catppuccin.com/lib/lib.less";''] [""];
+  stripLibImport =
+    replaceStrings
+    [
+      ''@import "https://userstyles.catppuccin.com/lib/lib.less";''
+      ''@import "https://userstyles.catppuccin.com/lib/std/v1.less";''
+    ]
+    ["" ""];
 
   patchDocumentSelectors = style: css:
     if style.sites == []
