@@ -135,17 +135,17 @@
     "tangled-catppuccin": {
       "flake": false,
       "locked": {
-        "lastModified": 1783198809,
-        "narHash": "sha256-pcMyCO0r9ZC6Nbx8xSI4QexZ3/eoeXQbJSlaEUAkm9k=",
+        "lastModified": 1791962464,
+        "narHash": "sha256-JtKpbwpnH/x0FWivUxGH69fGJAnb1ngoa0/yGVbUPfw=",
         "ref": "refs/heads/main",
-        "rev": "eefa60c601ff382e70386f737e3d5c8ca13b8375",
-        "revCount": 35,
+        "rev": "8ce47b6610ca1285c7ec00be9d1bf20a0592fbb6",
+        "revCount": 37,
         "type": "git",
-        "url": "https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr"
+        "url": "https://tangled.org/did:plc:y77gjqopzj4i6l4y7woi6d22"
       },
       "original": {
         "type": "git",
-        "url": "https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr"
+        "url": "https://tangled.org/did:plc:y77gjqopzj4i6l4y7woi6d22"
       }
     },
     "treefmt-nix": {

@@ -28,7 +28,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     tangled-catppuccin = {
-      url = "git+https://tangled.org/did:plc:rdinf3cjt4zqifhqdtc5gfcr";
+      url = "git+https://tangled.org/did:plc:y77gjqopzj4i6l4y7woi6d22";
       flake = false;
     };
 
