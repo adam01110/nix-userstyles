@@ -19,11 +19,11 @@
     "catppuccin-userstyles": {
       "flake": false,
       "locked": {
-        "lastModified": 1788532266,
-        "narHash": "sha256-OWq7PS6RzupnLLInoiptbXsDzJ6Nh0bbKA9ijG953jk=",
+        "lastModified": 1791754155,
+        "narHash": "sha256-DmSVt+kFeuE3fn8m2oqtKeXKAxOm72xsVWGCrhV91vE=",
         "owner": "catppuccin",
         "repo": "userstyles",
-        "rev": "690decf222c1e43969f471677cdf241d7289bfde",
+        "rev": "aef780c2a8e0db2f272bec1a0e276a9c6c59f45f",
         "type": "github"
       },
       "original": {
