@@ -7,10 +7,10 @@
 
   Build Catppuccin userstyles with Nix and use your Base16 palette in Firefox.
 
-  [![Repo Size](https://img.shields.io/github/repo-size/adam01110/nix-userstyles?style=flat-square&label=repo%20size&labelColor=504945&color=3c3836)](https://github.com/adam01110/nix-userstyles)
+  [![Repo Size](https://img.shields.io/github/repo-size/adam01110/nix-userstyles?style=flat-square&labelColor=504945&label=repo%20size&color=3c3836)](https://github.com/adam01110/nix-userstyles)
   <br />
   [![Nix](https://img.shields.io/badge/Nix-flakes-689d6a?style=flat-square&labelColor=504945&logo=nixos&logoColor=ebdbb2)](https://nixos.wiki/wiki/Flakes)
-  [![Catppuccin](https://img.shields.io/badge/Catppuccin-userstyles-b16286?style=flat-square&labelColor=504945&color=b16286)](https://github.com/catppuccin/userstyles)
+  [![Catppuccin](https://img.shields.io/badge/Catppuccin-userstyles-b16286?style=flat-square&labelColor=504945)](https://github.com/catppuccin/userstyles)
   [![Firefox](https://img.shields.io/badge/Firefox-userContent.css-458588?style=flat-square&labelColor=504945&logo=firefoxbrowser&logoColor=ebdbb2)](https://support.mozilla.org/en-US/kb/contributors-guide-firefox-advanced-customization)
 
   [Usage](#usage) - [Styles and selectors](#styles-and-selectors) - [Library](#library) - [Development](#development)
